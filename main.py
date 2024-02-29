@@ -13,7 +13,15 @@ def main(page: ft.Page):
             print('password not correct', password)
 
     def signup_click(e):
-        pass
+        try:
+            database.add_user([signup_phone_field.value, signup_name_field.value, signup_password_field.value, 0])
+            print('data added')
+            page.go('/home')
+        except Exception as e:
+            print(e)
+
+    
+
         
             
         
@@ -26,15 +34,9 @@ def main(page: ft.Page):
     signup_name_field = ft.TextField(label='Name')
     signup_phone_field = ft.TextField(label='Phone Number')
     signup_password_field = ft.TextField(label='Password', password=True, can_reveal_password=True)
-    signup_signup_button = ft.ElevatedButton("Sign Up", bgcolor=ft.colors.RED_ACCENT_400)
+    signup_signup_button = ft.ElevatedButton("Sign Up", bgcolor=ft.colors.RED_ACCENT_400, on_click=signup_click)
 
-        
-    def route_change(route):
-        page.views.clear()
-        page.views.append(
-            ft.View(
-                "/",
-                [
+    root_view = [
                     ft.AppBar(title=ft.Text("Welcome to Cold Store Management System"), bgcolor=ft.colors.SURFACE_VARIANT),
                     ft.Text(value='Login'),
                     login_phone_field,
@@ -45,7 +47,13 @@ def main(page: ft.Page):
                     login_signup_button,
                         ]
                     )
-                ],
+                ]
+    def route_change(route):
+        page.views.clear()
+        page.views.append(
+            ft.View(
+                "/",
+                root_view
             )
         )
         if page.route == "/signup":
@@ -59,6 +67,16 @@ def main(page: ft.Page):
                         signup_password_field,
                         signup_signup_button
                     ],
+                )
+            )
+        elif page.route == '/home':
+            page.views.append(
+                ft.View(
+                    '/home',
+                    [
+                        ft.AppBar(title=ft.Text("Home Page"), bgcolor=ft.colors.SURFACE_VARIANT),
+                        ft.Text('HOME PAGE', size=40)
+                    ]
                 )
             )
         
