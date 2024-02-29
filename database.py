@@ -1,22 +1,17 @@
-import sqlite3 as sql
+import gspread
 
-user_conn = sql.connect('db/user.db')
-inventory_conn = sql.connect('db/inventory.db')
-sales_conn = sql.connect('db/sales.db')
+gc = gspread.service_account(filename='credentials.json')
 
-user_cursor = user_conn.cursor()
-inventory_cursor = inventory_conn.cursor()
-sales_cursor = sales_conn.cursor()
+csms_sheet = gc.open('CSMS')
+users_sheet = csms_sheet.worksheet('users')
 
-def create_user_table():
-    try:
-        user_cursor.execute('CREATE TABLE USERS (ID INT, NAME VARCHAR(50), PASSWORD VARCHAR(50), IS_MANAGER INT)')
-        print('table created!')
-    except:
-        print("user_table cannot be created")
+def add_user(data:list):
+    users_sheet.append_row(data)
 
-
-
-user_conn.close()
-inventory_conn.close()
-sales_conn.close()
+def password_verify(phone_number):
+    row =  users_sheet.find(str(phone_number)).row
+    if row:
+        password = users_sheet.cell(row, col=3).value
+        return password
+    return None
+# print(password_verify(97815))
