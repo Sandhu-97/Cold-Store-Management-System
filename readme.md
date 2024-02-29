@@ -7,6 +7,8 @@
 
 ### Idea
 We are going to create Cold Store Management System which will act as a inventory management system and a marketplace for farmers to sell their crops.
+The software hopes to ease the life of farmers and other persons' who are engaged in the primary sector. This will reduce the load of farmers and provide sources of side income.
+
 
 #### Flow of the software
 This is going to be a windows desktop application.
