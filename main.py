@@ -3,8 +3,8 @@ import database
 
 def main(page: ft.Page):
     page.title = 'Cold Store Management System'
-    page.window_max_height=600
-    page.window_max_width=600
+    page.window_max_height=500
+    page.window_max_width=500
 
     def login_click(e):
         password = database.password_verify(phone_number=login_phone_field.value)
@@ -45,8 +45,8 @@ def main(page: ft.Page):
 
     login_phone_field = ft.TextField(label='Phone Number')
     login_password_field = ft.TextField(label='Password', password=True, can_reveal_password=True)
-    login_login_button = ft.ElevatedButton("Login", bgcolor=ft.colors.RED_400, on_click=login_click)
-    login_signup_button = ft.ElevatedButton("Sign Up", on_click=lambda _: page.go("/signup"), bgcolor=ft.colors.RED_ACCENT_400)
+    login_login_button = ft.ElevatedButton("Login", bgcolor=ft.colors.AMBER_600, on_click=login_click, color=ft.colors.BLACK)
+    login_signup_button = ft.ElevatedButton("Sign Up", on_click=lambda _: page.go("/signup"), bgcolor=ft.colors.AMBER_600, color=ft.colors.BLACK)
 
     signup_name_field = ft.TextField(label='Name')
     signup_phone_field = ft.TextField(label='Phone Number')
@@ -64,8 +64,8 @@ def main(page: ft.Page):
     add_quantity_field = ft.TextField(label='Quantity')
 
     login_view = [
-                    ft.AppBar(title=ft.Text("Welcome to Cold Store Management System"), bgcolor=ft.colors.SURFACE_VARIANT),
-                    ft.Text(value='Login'),
+                    ft.AppBar(title=ft.Text("Welcome to Cold Store Management System", text_align='center', size=20, weight=ft.FontWeight.W_600), bgcolor=ft.colors.AMBER_600, color=ft.colors.BLACK),
+                    ft.Row([ft.Text(value='Login', size=40, color=ft.colors.AMBER_600, text_align='center', weight=ft.FontWeight.W_900)], alignment='center'),
                     login_phone_field,
                     login_password_field,
                     ft.Row(
