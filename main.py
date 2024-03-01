@@ -3,7 +3,6 @@ import database
 
 def main(page: ft.Page):
     page.title = 'Cold Store Management System'
-    # page.window_maximized = True
     page.window_max_height=600
     page.window_max_width=600
 
@@ -39,6 +38,10 @@ def main(page: ft.Page):
         # except Exception as e:
         #     print(e)
         
+    def view_inventory_click(e):
+        data = database.extract_inventory()
+        print(data)
+        page.go('/view')
 
     login_phone_field = ft.TextField(label='Phone Number')
     login_password_field = ft.TextField(label='Password', password=True, can_reveal_password=True)
@@ -83,7 +86,9 @@ def main(page: ft.Page):
     home_view = [
                         ft.AppBar(title=ft.Text("Home Page"), bgcolor=ft.colors.SURFACE_VARIANT),
                         ft.Text('Welcome user', size=30),
-                        ft.ElevatedButton(text='Add to Inventory', bgcolor=ft.colors.BLUE_500, on_click=lambda _: page.go('/add'))
+                        ft.ElevatedButton(text='Add to Inventory', bgcolor=ft.colors.BLUE_500, on_click=lambda _: page.go('/add')),
+                        ft.ElevatedButton(text='View Inventory', bgcolor=ft.colors.BLUE_500, on_click=view_inventory_click),
+
                     ]
     
     add_to_inventory_view = [
@@ -101,9 +106,7 @@ def main(page: ft.Page):
         page.views.append(
             ft.View(
                 "/",
-                # home_view
                 login_view
-                # add_to_inventory_view
             )
         )
         if page.route == "/signup":
@@ -127,6 +130,19 @@ def main(page: ft.Page):
                 ft.View(
                     '/add',
                     add_to_inventory_view
+                )
+            )
+        elif page.route =='/view':
+            data = database.extract_inventory()
+            page.views.append(
+                ft.View(
+                    '/view',
+                    [
+                        ft.AppBar(title=ft.Text('My Inventory'), bgcolor=ft.colors.SURFACE_VARIANT),
+                        ft.Text(f'Phone: {data[0]}'),
+                        ft.Text(f'Pukhraj: {data[1]}'),
+                        ft.Text(f'Jyoti: {data[2]}'),
+                        ft.Text(f'Seed: {data[3]}')]
                 )
             )
         
