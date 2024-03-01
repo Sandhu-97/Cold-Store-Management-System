@@ -6,6 +6,7 @@ def main(page: ft.Page):
     page.window_max_height=500
     page.window_max_width=500
 
+    main_color = ft.colors.AMBER_600
     def login_click(e):
         password = database.password_verify(phone_number=login_phone_field.value)
         if password and password==login_password_field.value:
@@ -43,17 +44,17 @@ def main(page: ft.Page):
         print(data)
         page.go('/view')
 
-    login_phone_field = ft.TextField(label='Phone Number')
-    login_password_field = ft.TextField(label='Password', password=True, can_reveal_password=True)
-    login_login_button = ft.ElevatedButton("Login", bgcolor=ft.colors.AMBER_600, on_click=login_click, color=ft.colors.BLACK)
-    login_signup_button = ft.ElevatedButton("Sign Up", on_click=lambda _: page.go("/signup"), bgcolor=ft.colors.AMBER_600, color=ft.colors.BLACK)
+    login_phone_field = ft.TextField(label='Phone Number', border_color=ft.colors.AMBER_200)
+    login_password_field = ft.TextField(label='Password', password=True, can_reveal_password=True, border_color=ft.colors.AMBER_200)
+    login_login_button = ft.ElevatedButton("Login", bgcolor=main_color, on_click=login_click, color=ft.colors.BLACK)
+    login_signup_button = ft.ElevatedButton("Sign Up", on_click=lambda _: page.go("/signup"), bgcolor=main_color, color=ft.colors.BLACK)
 
-    signup_name_field = ft.TextField(label='Name')
-    signup_phone_field = ft.TextField(label='Phone Number')
-    signup_password_field = ft.TextField(label='Password', password=True, can_reveal_password=True)
-    signup_signup_button = ft.ElevatedButton("Sign Up", bgcolor=ft.colors.RED_ACCENT_400, on_click=signup_click)
+    signup_name_field = ft.TextField(label='Name', border_color=ft.colors.AMBER_200)
+    signup_phone_field = ft.TextField(label='Phone Number', border_color=ft.colors.AMBER_200)
+    signup_password_field = ft.TextField(label='Password', password=True, can_reveal_password=True, border_color=ft.colors.AMBER_200)
+    signup_signup_button = ft.ElevatedButton("Sign Up", bgcolor=main_color, on_click=signup_click, color='black')
 
-    add_phone_field = ft.TextField(label='Phone Number', read_only=True)
+    add_phone_field = ft.TextField(label='Phone Number', read_only=True, border_color=ft.colors.AMBER_200)
     add_potato_variety_radio = ft.RadioGroup(
         ft.Column([
             ft.Radio(value="pukhraj", label="Pukhraj"),
@@ -61,43 +62,60 @@ def main(page: ft.Page):
             ft.Radio(value='seed', label='Seed')
         ])
     )
-    add_quantity_field = ft.TextField(label='Quantity')
+    add_quantity_field = ft.TextField(label='Quantity', border_color=ft.colors.AMBER_200)
 
     login_view = [
-                    ft.AppBar(title=ft.Text("Welcome to Cold Store Management System", text_align='center', size=20, weight=ft.FontWeight.W_600), bgcolor=ft.colors.AMBER_600, color=ft.colors.BLACK),
-                    ft.Row([ft.Text(value='Login', size=40, color=ft.colors.AMBER_600, text_align='center', weight=ft.FontWeight.W_900)], alignment='center'),
+                    ft.AppBar(title=ft.Text("Welcome to Cold Store Management System", text_align='center', size=24, weight=ft.FontWeight.W_600), bgcolor=main_color, color=ft.colors.BLACK),
+                    ft.Row([ft.Text(value='Login', size=40, color=main_color, text_align='center', weight=ft.FontWeight.W_900)], alignment='center'),
                     login_phone_field,
                     login_password_field,
-                    ft.Row(
+                    ft.Container(
+                        ft.Row(
                         [
                     login_login_button,
                     login_signup_button,
-                        ]
+                        ], spacing=15, alignment='center', scale=1.3, 
+                    ), margin=ft.margin.only(top=20)
                     )
+                    
                 ]
     signup_view = [
-                        ft.AppBar(title=ft.Text("Sign Up As A New User"), bgcolor=ft.colors.SURFACE_VARIANT),
+                        ft.AppBar(title=ft.Row([ft.Text("Sign Up As A New User", weight=ft.FontWeight.W_600, color='black', size=24),], alignment='center'), bgcolor=main_color),
                         signup_name_field,
                         signup_phone_field,
                         signup_password_field,
+                        ft.Container(
+                        ft.Row(
+                            [
                         signup_signup_button
+                            ], alignment='center',
+                        ), margin=ft.margin.only(top=20)
+                        )
+
                     ]
     
     home_view = [
-                        ft.AppBar(title=ft.Text("Home Page"), bgcolor=ft.colors.SURFACE_VARIANT),
-                        ft.Text('Welcome user', size=30),
-                        ft.ElevatedButton(text='Add to Inventory', bgcolor=ft.colors.BLUE_500, on_click=lambda _: page.go('/add')),
-                        ft.ElevatedButton(text='View Inventory', bgcolor=ft.colors.BLUE_500, on_click=view_inventory_click),
+                        ft.AppBar(title=ft.Row([ft.Text("Home Page", size=35)], alignment='center'), bgcolor=main_color, color='black'),
+                        ft.Row([ft.Text('Welcome user', size=30, color=main_color)], alignment='center'),
+                        ft.Container(
+                            ft.Column([
+                                ft.ElevatedButton(text='Add to Inventory', bgcolor=main_color, on_click=lambda _: page.go('/add'), color='black', scale=1.6),
+                                ft.ElevatedButton(text='View Inventory', bgcolor=main_color, on_click=view_inventory_click, color='black', scale=1.6),
+                            ], spacing=40), alignment=ft.alignment.center, margin=ft.margin.only(top=80)
+                        )
 
                     ]
     
     add_to_inventory_view = [
-        ft.AppBar(title=ft.Text('Add Your Crop To Inventory'), bgcolor=ft.colors.SURFACE_VARIANT),
+        ft.AppBar(title=ft.Row([ft.Text('Add Your Crop To Inventory', color='black')],alignment='center' ), bgcolor=main_color),
         add_phone_field,
         ft.Text("Select the Variety of Potato"),
         add_potato_variety_radio,
         add_quantity_field,
-        ft.ElevatedButton(text='Add', on_click=add_inventory_click)
+        ft.Row([
+        ft.ElevatedButton(text='Add', on_click=add_inventory_click, bgcolor=main_color, color='black', scale=1.2)
+    
+        ], alignment='center')
         
     ]
 
@@ -138,11 +156,14 @@ def main(page: ft.Page):
                 ft.View(
                     '/view',
                     [
-                        ft.AppBar(title=ft.Text('My Inventory'), bgcolor=ft.colors.SURFACE_VARIANT),
-                        ft.Text(f'Phone: {data[0]}'),
-                        ft.Text(f'Pukhraj: {data[1]}'),
-                        ft.Text(f'Jyoti: {data[2]}'),
-                        ft.Text(f'Seed: {data[3]}')]
+                        ft.AppBar(title=ft.Row([ft.Text('My Inventory', color='black', size=35)], alignment='center'), bgcolor=main_color, color='black'),
+                        ft.Container(
+                            ft.Column([ft.Text(f'Phone: {data[0]}', size=25, color=main_color),
+                        ft.Text(f'Pukhraj: {data[1]}', size=25, color=main_color),
+                        ft.Text(f'Jyoti: {data[2]}', size=25, color=main_color),
+                        ft.Text(f'Seed: {data[3]}', size=25, color=main_color)], alignment='center'), alignment=ft.alignment.center, margin=ft.margin.only(top=60)
+                        )
+]
                 )
             )
         
