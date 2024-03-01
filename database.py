@@ -8,7 +8,7 @@ inventory_sheet = csms_sheet.worksheet('inventory')
 
 
 def add_to_inventory(data:list):
-    # try:
+    try:
         if data[0] not in inventory_sheet.col_values(1):
             inventory_sheet.append_row(data)
         else:
@@ -18,11 +18,15 @@ def add_to_inventory(data:list):
                 value = int(inventory_sheet.cell(row, col).value)
                 value += int(data[col-1])
                 inventory_sheet.update_cell(row, col, value)
-                print(value)
                 col+=1
 
-    # except Exception as e:
-    #     print(e) 
+    except Exception as e:
+        print(e) 
+
+def extract_inventory():
+    phone_number = get_current_instance()
+    row = inventory_sheet.find(phone_number, in_column=1).row
+    return [phone_number, inventory_sheet.cell(row, 2).value, inventory_sheet.cell(row, 3).value, inventory_sheet.cell(row, 4).value]
 
 def add_user(data:list):
     try:
@@ -41,6 +45,4 @@ def get_current_instance():
     return users_sheet.acell('H1').value
 
 def update_current_instance(phone_number):
-    # users_sheet.acell('H1').value = phone_number   
     users_sheet.update('H1', phone_number)
-    print('instance updated', phone_number)
