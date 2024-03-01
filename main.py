@@ -18,7 +18,6 @@ def main(page: ft.Page):
     def signup_click(e):
         try:
             database.add_user([signup_phone_field.value, signup_name_field.value, signup_password_field.value, 0])
-            print('data added')
             page.go('/home')
         except Exception as e:
             print(e)
@@ -34,19 +33,17 @@ def main(page: ft.Page):
                 data.extend([0, quantity, 0])
             else:
                 data.extend([0, 0, quantity])
-            print(data)
             database.add_to_inventory(data)
         # except Exception as e:
         #     print(e)
         
     def view_inventory_click(e):
         data = database.extract_inventory()
-        print(data)
         page.go('/view')
 
     login_phone_field = ft.TextField(label='Phone Number', border_color=ft.colors.AMBER_200)
     login_password_field = ft.TextField(label='Password', password=True, can_reveal_password=True, border_color=ft.colors.AMBER_200)
-    login_login_button = ft.ElevatedButton("Login", bgcolor=main_color, on_click=login_click, color=ft.colors.BLACK)
+    login_login_button = ft.ElevatedButton("Login", bgcolor=main_color, on_click=login_click, color=ft.colors.BLACK, )
     login_signup_button = ft.ElevatedButton("Sign Up", on_click=lambda _: page.go("/signup"), bgcolor=main_color, color=ft.colors.BLACK)
 
     signup_name_field = ft.TextField(label='Name', border_color=ft.colors.AMBER_200)
@@ -80,7 +77,7 @@ def main(page: ft.Page):
                     
                 ]
     signup_view = [
-                        ft.AppBar(title=ft.Row([ft.Text("Sign Up As A New User", weight=ft.FontWeight.W_600, color='black', size=24),], alignment='center'), bgcolor=main_color),
+                        ft.AppBar(title=ft.Row([ft.Text("Sign Up As A New User", weight=ft.FontWeight.W_700, color='black', size=24),], alignment='center'), bgcolor=main_color),
                         signup_name_field,
                         signup_phone_field,
                         signup_password_field,
@@ -95,8 +92,8 @@ def main(page: ft.Page):
                     ]
     
     home_view = [
-                        ft.AppBar(title=ft.Row([ft.Text("Home Page", size=35)], alignment='center'), bgcolor=main_color, color='black'),
-                        ft.Row([ft.Text('Welcome user', size=30, color=main_color)], alignment='center'),
+                        ft.AppBar(title=ft.Row([ft.Text("Home Page", size=35, weight=ft.FontWeight.W_600)], alignment='center'), bgcolor=main_color, color='black'),
+                        ft.Row([ft.Text('Welcome User', size=30, color=main_color,weight=ft.FontWeight.W_500)], alignment='center'),
                         ft.Container(
                             ft.Column([
                                 ft.ElevatedButton(text='Add to Inventory', bgcolor=main_color, on_click=lambda _: page.go('/add'), color='black', scale=1.6),
@@ -107,7 +104,7 @@ def main(page: ft.Page):
                     ]
     
     add_to_inventory_view = [
-        ft.AppBar(title=ft.Row([ft.Text('Add Your Crop To Inventory', color='black')],alignment='center' ), bgcolor=main_color),
+        ft.AppBar(title=ft.Row([ft.Text('Add Your Crop To Inventory', color='black', weight=ft.FontWeight.W_600)],alignment='center' ), bgcolor=main_color),
         add_phone_field,
         ft.Text("Select the Variety of Potato"),
         add_potato_variety_radio,
@@ -142,7 +139,6 @@ def main(page: ft.Page):
                 )
             )
         elif page.route == '/add':
-            # print(page.session.get('id'))
             add_phone_field.value = database.get_current_instance()
             page.views.append(
                 ft.View(
@@ -156,7 +152,7 @@ def main(page: ft.Page):
                 ft.View(
                     '/view',
                     [
-                        ft.AppBar(title=ft.Row([ft.Text('My Inventory', color='black', size=35)], alignment='center'), bgcolor=main_color, color='black'),
+                        ft.AppBar(title=ft.Row([ft.Text('My Inventory', color='black', size=35, weight=ft.FontWeight.W_600)], alignment='center'), bgcolor=main_color, color='black'),
                         ft.Container(
                             ft.Column([ft.Text(f'Phone: {data[0]}', size=25, color=main_color),
                         ft.Text(f'Pukhraj: {data[1]}', size=25, color=main_color),

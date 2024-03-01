@@ -3,5 +3,5 @@ test.py
 
 db/
 
-
+credentials.json
 __pycache__/
